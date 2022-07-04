@@ -103,7 +103,7 @@ do
 			protectgui(Object)
 			Object.Parent = Parent
 		end or 0,
-		gethui0get_hidden_gui = protectgui and (function()
+		["gethui,get_hidden_gui"] = protectgui and (function()
 			local HiddenUI = Instance.new"Folder"
 			protectgui(HiddenUI)
 			HiddenUI.Parent = cloneref and cloneref(game:GetService"CoreGui") or game:GetService"CoreGui"
@@ -113,7 +113,7 @@ do
 		end)() or function()
 			return cloneref and cloneref(game:GetService"CoreGui") or game:GetService"CoreGui"
 		end,
-		islclosure0is_l_closure = (iscclosure or is_c_closure) and function(Closure)
+		["islclosure,is_l_closure"] = (iscclosure or is_c_closure) and function(Closure)
 			return not (iscclosure or is_c_closure)(Closure)
 		end or 0,
 		cloneref = getreg and (function()
