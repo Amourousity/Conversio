@@ -6,13 +6,13 @@
 [|]    [|] [|]    [|]  [|]   [|||] [|||]      [|]         [|]    [|] [|]    [|]    [|]    [|]    [|]
 [||||||]   [||||||]   [|]    [||] [||]       [|||||||||] [|]    [|]  [||||||] [|||||||||] [|||||]]
 do
-	local ScriptEnvironment = getfenv()
+	local Environment = (getgenv or getfenv)()
 	local function CheckCompatibility(Paths,Replacement)
 		Paths = Paths:split()
 		local Function
 		for Count,Path in pairs(Paths) do
 			Path = Path:split"."
-			Function = ScriptEnvironment[Path[1]]
+			Function = Environment[Path[1]]
 			for Depth = 2,#Path do
 				if Function then
 					Function = Function[Path[Depth]]
@@ -21,11 +21,12 @@ do
 			if Function or Replacement and Count == #Paths then
 				for _,NewPathName in pairs(Paths) do
 					NewPathName = NewPathName:split"."
-					local NewPath = ScriptEnvironment
+					local NewPath = Environment
 					for Depth = 1,#NewPathName-1 do
 						if not NewPath[NewPathName[Depth]] then
 							NewPath[NewPathName[Depth]] = {}
 						end
+						NewPath = NewPath[NewPathName[Depth]]
 					end
 					if not NewPath[NewPathName[#NewPathName]] then
 						NewPath[NewPathName[#NewPathName]] = Function or Replacement
