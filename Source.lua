@@ -44,14 +44,16 @@ do
 		"isreadonly,is_readonly",
 		"getproto,debug.getproto",
 		"getstack,debug.getstack",
+		"iscclosure,is_c_closure",
 		"setstack,debug.setstack",
 		"getprotos,debug.getprotos",
-		"consoleclear,rconsoleclear",
 		"consoleinput,rconsoleinput",
 		"getcustomasset,getsynasset",
 		"isrbxactive,iswindowactive",
+		"makereadonly,make_readonly",
 		"dumpstring,getscriptbytecode",
 		"hookfunction,detour_function",
+		"makewriteable,make_writeable",
 		"getconnections,get_signal_cons",
 		"request,http.request,syn.request",
 		"getrawmetatable,debug_getmetatable",
@@ -94,8 +96,8 @@ do
 	end
 	--- @diagnostic disable undefined-global
 	for Paths,Replacement in pairs{
-		setreadonly = (make_writeable or makewriteable) and function(Table,ReadOnly)
-			(ReadOnly and (make_readonly or makereadonly) or (make_writeable or makewriteable))(Table)
+		setreadonly = makewriteable and function(Table,ReadOnly)
+			(ReadOnly and makereadonly or makewriteable)(Table)
 		end or 0,
 		hootmetamethod = hookfunction and getrawmetatable and function(Object,Method,Hook)
 			return hookfunction(getrawmetatable(Object)[Method],Hook)
@@ -114,8 +116,8 @@ do
 		end)() or function()
 			return cloneref and cloneref(game:GetService"CoreGui") or game:GetService"CoreGui"
 		end,
-		["islclosure,is_l_closure"] = (iscclosure or is_c_closure) and function(Closure)
-			return not (iscclosure or is_c_closure)(Closure)
+		["islclosure,is_l_closure"] = iscclosure and function(Closure)
+			return not iscclosure(Closure)
 		end or 0,
 		cloneref = getreg and (function()
 			local TestPart = Instance.new"Part"
@@ -143,7 +145,10 @@ do
 					end
 				end
 			end
-		end)() or 0
+		end)() or 0,
+		["consoleclear,rconsoleclear"] = consoleprint and function()
+			consoleprint(("\b"):rep(1e6))
+		end or 0
 	} do
 		CheckCompatibility(Paths,type(Replacement) == "function" and Replacement or nil)
 	end
