@@ -13,7 +13,7 @@ Environment.Conversio = 0
 local function CheckCompatibility(Paths,Replacement)
 	Paths = Paths:split()
 	local Function
-	for Count,Path in next,Paths do
+	for Count,Path in Paths do
 		Path = Path:split"."
 		Function = Environment[Path[1]]
 		for Depth = 2,#Path do
@@ -22,7 +22,7 @@ local function CheckCompatibility(Paths,Replacement)
 			end
 		end
 		if Function or Replacement and Count == #Paths then
-			for _,NewPathName in next,Paths do
+			for _,NewPathName in Paths do
 				NewPathName = NewPathName:split"."
 				local NewPath = Environment
 				for Depth = 1,#NewPathName-1 do
@@ -97,7 +97,7 @@ for _,FunctionNames in next,{
 	CheckCompatibility(FunctionNames)
 end
 --- @diagnostic disable undefined-global
-for Paths,Replacement in next,{
+for Paths,Replacement in {
 	["protectgui,protect_gui,syn.protect_gui"] = function() end,
 	setreadonly = makewriteable and function(Table,ReadOnly)
 		(ReadOnly and makereadonly or makewriteable)(Table)
@@ -125,10 +125,10 @@ for Paths,Replacement in next,{
 	cloneref = getreg and (function()
 		local TestPart = Instance.new"Part"
 		local InstanceList
-		for _,InstanceTable in next,getreg() do
+		for _,InstanceTable in getreg() do
 			if type(InstanceTable) == "table" and #InstanceTable then
 				if rawget(InstanceTable,"__mode") == "kvs" then
-					for _,PartCheck in next,InstanceTable do
+					for _,PartCheck in InstanceTable do
 						if PartCheck == TestPart then
 							InstanceList = InstanceTable
 							pcall(game.Destroy,TestPart)
@@ -140,7 +140,7 @@ for Paths,Replacement in next,{
 		end
 		if InstanceList then
 			return function(Object)
-				for Index,Value in next,InstanceList do
+				for Index,Value in InstanceList do
 					if Value == Object then
 						InstanceList[Index] = nil
 						return Object
