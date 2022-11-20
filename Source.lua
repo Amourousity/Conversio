@@ -39,7 +39,7 @@ local function CheckCompatibility(Paths,Replacement)
 		end
 	end
 end
-for _,FunctionNames in next,{
+for _,FunctionNames in {
 	"getsenv,getmenv",
 	"getreg,getregistry",
 	"getgc,get_gc_objects",
