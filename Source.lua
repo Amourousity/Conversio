@@ -102,7 +102,7 @@ for Paths,Replacement in {
 	setreadonly = makewriteable and function(Table,ReadOnly)
 		(ReadOnly and makereadonly or makewriteable)(Table)
 	end or 0,
-	hootmetamethod = hookfunction and getrawmetatable and function(Object,Method,Hook)
+	hookmetamethod = hookfunction and getrawmetatable and function(Object,Method,Hook)
 		return hookfunction(getrawmetatable(Object)[Method],Hook)
 	end or 0,
 	setparentinternal = protectgui and function(Object,Parent)
