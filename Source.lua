@@ -6,10 +6,7 @@
 [|]    [|] [|]    [|]  [|]   [|||] [|||]      [|]         [|]    [|] [|]    [|]    [|]    [|]    [|]
 [||||||]   [||||||]   [|]    [||] [||]       [|||||||||] [|]    [|]  [||||||] [|||||||||] [|||||]]
 
-local environment = {}
-for key, value in getgenv() do
-	environment[key] = value
-end
+local environment = getgenv()
 if environment.conversioLoaded then
 	return
 end
